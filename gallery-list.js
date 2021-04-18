@@ -1,9 +1,15 @@
 import pictures from './gallery-items.js';
 
-const galleryList = document.querySelector('.js-gallery');
-const itemMarkup = createGalleryItemMakup(pictures);
+const refs = {
+  gallery: document.querySelector('.js-gallery'),
+  modal: document.querySelector('.js-lightbox'),
+  imageMod: document.querySelector('.lightbox__image')
+};
 
-galleryList.insertAdjacentHTML('afterbegin', itemMarkup);
+const itemMarkup = createGalleryItemMakup(pictures);
+refs.gallery.insertAdjacentHTML('afterbegin', itemMarkup);
+
+refs.gallery.addEventListener('click', onGalleryItemClick);
 
 function createGalleryItemMakup(pictures) {
     return pictures.map(({ preview, original, description }) => {
@@ -23,3 +29,14 @@ function createGalleryItemMakup(pictures) {
 ` ;
     }).join('');
 };
+
+function onGalleryItemClick(evt) {
+  if (!evt.target.classList.contains('gallery__image')) {
+    return;
+  };
+  evt.preventDefault();
+  refs.modal.classList.add('is-open');
+  refs.imageMod.setAttribute('src', evt.target.getAttribute('data-source'));
+  console.log(evt.target.dataset.original);
+};
+
