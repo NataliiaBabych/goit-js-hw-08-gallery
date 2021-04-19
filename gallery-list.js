@@ -40,3 +40,13 @@ function onGalleryItemClick(evt) {
   console.log(evt.target.dataset.original);
 };
 
+function closeGalleryItem(evt) {
+  if (evt.target.classList.contains('lightbox__overlay')) { 
+  refs.modal.classList.remove('is-open');
+    refs.imageMod.removeAttribute('src');
+  };
+  if (evt.target.classList.contains('lightbox__button')) {
+    refs.modal.classList.remove('is-open');
+    refs.imageMod.removeAttribute('src');
+  }
+};
