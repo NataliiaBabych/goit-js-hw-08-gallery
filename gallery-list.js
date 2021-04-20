@@ -6,10 +6,9 @@ const refs = {
   imageMod: document.querySelector('.lightbox__image')
 };
 
-const itemMarkup = createGalleryItemMakup(pictures);
-refs.gallery.insertAdjacentHTML('afterbegin', itemMarkup);
+// Создание и рендер разметки
 
-refs.gallery.addEventListener('click', onGalleryItemClick);
+const itemMarkup = createGalleryItemMakup(pictures);
 
 function createGalleryItemMakup(pictures) {
     return pictures.map(({ preview, original, description }) => {
@@ -30,23 +29,33 @@ function createGalleryItemMakup(pictures) {
     }).join('');
 };
 
-function onGalleryItemClick(evt) {
+refs.gallery.insertAdjacentHTML('afterbegin', itemMarkup);
+
+// 
+refs.gallery.addEventListener('click', openGalleryItem);
+refs.modal.addEventListener('click', closeGalleryItem);
+
+// Открытие модального окна
+function openGalleryItem(evt) {
   if (!evt.target.classList.contains('gallery__image')) {
     return;
   };
   evt.preventDefault();
   refs.modal.classList.add('is-open');
   refs.imageMod.setAttribute('src', evt.target.getAttribute('data-source'));
-  console.log(evt.target.dataset.original);
 };
+
+// Закрытие модального окна
+function closeModal() {
+refs.modal.classList.remove('is-open');
+refs.imageMod.removeAttribute('src');
+ };
 
 function closeGalleryItem(evt) {
   if (evt.target.classList.contains('lightbox__overlay')) { 
-  refs.modal.classList.remove('is-open');
-    refs.imageMod.removeAttribute('src');
+    closeModal();
   };
   if (evt.target.classList.contains('lightbox__button')) {
-    refs.modal.classList.remove('is-open');
-    refs.imageMod.removeAttribute('src');
-  }
+    closeModal();
+  };
 };
